@@ -46,7 +46,6 @@ class Mouse:
 mouse = Mouse()
 mouse.appears()
 mouse.runs_away()
-#mouse.enters_mouse_trap() # fsm.TransitionError: Invalid state
-                           # transition:
-                           # runs away -> enters mouse trap
+#mouse.trapped() # fsm.TransitionError: Invalid state transition:
+                 # runs away -> trapped
 ```
