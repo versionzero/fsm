@@ -64,3 +64,20 @@ class StateMachine:
         self.__current.next(name, states) 
     def state(self):
         return str(self.__current)
+
+
+def state_machine(first):
+    def wrap(cls):
+        if not hasattr(cls, "__machine"):
+            setattr(cls, "__machine", StateMachine(first))
+        return cls
+    return wrap
+
+
+def next_state(next):
+    def wrap(fn):
+        def wrapped_f(*args):
+            getattr(args[0], "__machine").next(fn.__name__, next)
+            fn(*args)
+        return wrapped_f
+    return wrap
