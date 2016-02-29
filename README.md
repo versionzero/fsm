@@ -12,40 +12,39 @@ transitions after a method invocation, respectively.
 ## Sample
 
 ```python
-from fsm import state_machine, transition
+from fsm import StateMachine, state_machine, next_state
 
 @state_machine(["appears"])
 class Mouse:
-    
-    def __init__(self):
-        pass
 
-    @transition(["runs away", "enters mouse trap"])
+    @next_state(["runs_away", "enters_mouse_trap"])
     def appears(self):
-        pass
+        print("In appears()")
 
-    @transition(["escapes"])
+    @next_state(["escapes"])
     def runs_away(self):
-        pass
+        print("In runs_away()")
 
-    @transition(["appears"])
+    @next_state(["appears"])
     def escapes(self):
-        pass
+        print("In escapes()")
 
-    @transition(["trapped"])
+    @next_state(["trapped"])
     def enters_mouse_trap(self):
-        pass
+        print("In enters_mouse_trap()")
 
-    @transition(["removed"])
+    @next_state(["removed"])
     def trapped(self):
-        
-    @transition([])
+        print("In trapped()")
+
+    @next_state([])
     def removed(self):
-        pass
-        
+        print("In removed()")
+
 mouse = Mouse()
 mouse.appears()
 mouse.runs_away()
-#mouse.trapped() # fsm.TransitionError: Invalid state transition:
-                 # runs away -> trapped
+mouse.enters_mouse_trap() # fsm.TransitionError: Invalid state transition:
+                          #  runs away -> enters mouse trap
+    
 ```
