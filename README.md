@@ -1,5 +1,18 @@
-from fsm import StateMachine, state_machine, next_state
 
+## Introduction
+
+Many times when writing classes, there is a well known order in which
+methods can be called. Finite state machines provide an excellent way
+to enforce the ordering.
+
+This library provides two decorators: one for a class and another for
+a method. They defined a class's state machine and the valid
+transitions after a method invocation, respectively.
+
+## Sample
+
+```python
+from fsm import StateMachine, state_machine, next_state
 
 @state_machine(["appears"])
 class Mouse:
@@ -28,9 +41,10 @@ class Mouse:
     def removed(self):
         print("In removed()")
 
-
 mouse = Mouse()
 mouse.appears()
 mouse.runs_away()
-mouse.enters_mouse_trap() # fsm.Next_StateError: Invalid state next_state: runs away -> enters mouse trap
+mouse.enters_mouse_trap() # fsm.TransitionError: Invalid state transition:
+                          #  runs away -> enters mouse trap
     
+```
