@@ -1,6 +1,6 @@
 
 
-class StateMachine:
+class _StateMachine:
     """
     Simple (finite) state machine to help guard against improper use
     of class methods.
@@ -53,31 +53,28 @@ class StateMachine:
             if not name:
                 name = "__end__"
             if name not in self.__states:
-                raise StateMachine.State.TransitionError(
+                raise _StateMachine.State.TransitionError(
                     "Invalid state transition: %s -> %s" 
                     % (self.__current, name))
             self.__current = name
             self.__states = states
     def __init__(self, states=[]):
-        self.__current = StateMachine.State("__start__", states)
+        self.__current = _StateMachine.State("__start__", states)
     def next(self, name, states):
         self.__current.next(name, states) 
     def state(self):
         return str(self.__current)
 
 
-def state_machine(first):
-    def wrap(cls):
-        if not hasattr(cls, "__machine"):
-            setattr(cls, "__machine", StateMachine(first))
-        return cls
-    return wrap
-
-
-def next_state(next):
+def transition(next):
     def wrap(fn):
-        def wrapped_f(*args):
-            getattr(args[0], "__machine").next(fn.__name__, next)
-            fn(*args)
+        def wrapped_f(*args, **kwargs):
+            # Instantiate the FSM after the first method with a
+            # transion is invoked.
+            cls = args[0]
+            if not hasattr(cls, "__machine"):
+                setattr(cls, "__machine", _StateMachine(fn.__name__))
+            getattr(cls, "__machine").next(fn.__name__, next)
+            return fn(*args, **kwargs)
         return wrapped_f
     return wrap
