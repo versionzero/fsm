@@ -5,9 +5,7 @@ Many times when writing classes, there is a well known order in which
 methods can be called. Finite state machines provide an excellent way
 to enforce the ordering.
 
-This library provides two decorators: one for a class and another for
-a method. They defined a class's state machine and the valid
-transitions after a method invocation, respectively.
+This library provides a decorator for this purpose.
 
 ## Sample
 
