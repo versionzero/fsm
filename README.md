@@ -52,7 +52,7 @@ mouse.enters_mouse_trap() # fsm.TransitionError: Invalid state transition:
 
 A more concrete example is that of a bank account.
 
-```
+```python
 class Customer(object):
     """A customer of ABC Bank with a checking account. Customers have the
     following properties:
