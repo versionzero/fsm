@@ -87,6 +87,11 @@ class Customer(object):
         dollars."""
         self.balance += amount
         return self.balance
+
+cust1 = Customer("Alice")
+cust.withdraw(1000.0) # fsm.TransitionError: Invalid state transition:
+                      #  start -> withdraw
+
 ```
 
 Notice that without enforcing that a call to `set_balance` or
